@@ -10,6 +10,7 @@ public class Oscillator : MonoBehaviour
     [SerializeField] Vector3 movementVector;
     [SerializeField] [Range(0,1)] float movementFactor; // Tak robimy slajdera w inspektorze - ten range to jest atrybut
     [SerializeField] float period = 2f;
+    [SerializeField] float timeToStart = 5f;
    
     // Start is called before the first frame update
     void Start()
@@ -28,10 +29,13 @@ public class Oscillator : MonoBehaviour
         const float tau = Mathf.PI * 2; // tau to jest jak bierzemy promień i kładziemy go na obwodzie koła - wtedy mieści się on ok. 6,28 raza
         float rawSinWave = Mathf.Sin(cycles * tau); // da nam to wynik między -1 a 1
 
-        movementFactor = (rawSinWave + 1f) / 2f; // linia idzie od -1 do 1, tutaj dodajemy jedynke i wychodzi od 0 do 2 linia no i dzielimy przez 2
 
+        if (Time.time > timeToStart)
+        {
+            movementFactor = (rawSinWave + 1f) / 2f; // linia idzie od -1 do 1, tutaj dodajemy jedynke i wychodzi od 0 do 2 linia no i dzielimy przez 2
 
-        Vector3 offset = movementVector * movementFactor;
-        transform.position = startingPosition + offset;
+            Vector3 offset = movementVector * movementFactor;
+            transform.position = startingPosition + offset;
+        }
     }
 }
